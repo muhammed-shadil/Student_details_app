@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:student_database/controller/service.dart';
+import 'package:student_database/model/studentmodel.dart';
 import 'package:student_database/view/widgets/custom_textfield.dart';
 import 'package:student_database/view/widgets/custombutton2.dart';
 import 'package:student_database/view/widgets/sizedbox20.dart';
@@ -12,10 +14,11 @@ class AddDetails extends StatefulWidget {
 
 final rollcontroll = TextEditingController();
 
-final classcontroll = TextEditingController();
-final namecontroll = TextEditingController();
-final phonecontroll = TextEditingController();
-final addresscontroll = TextEditingController();
+Studentservices _studentservices = Studentservices();
+final _classcontroll = TextEditingController();
+final _namecontroll = TextEditingController();
+final _phonecontroll = TextEditingController();
+final _addresscontroll = TextEditingController();
 
 class _AddDetailsState extends State<AddDetails> {
   @override
@@ -67,7 +70,7 @@ class _AddDetailsState extends State<AddDetails> {
                           ),
                           const SizedBox20(),
                           CustomTextfield(
-                            controlle: classcontroll,
+                            controlle: _classcontroll,
                             hint: "Class",
                           ),
                           const SizedBox20(),
@@ -77,17 +80,17 @@ class _AddDetailsState extends State<AddDetails> {
                   ],
                 ),
                 CustomTextfield(
-                  controlle: namecontroll,
+                  controlle: _namecontroll,
                   hint: "Name",
                 ),
                 const SizedBox20(),
                 CustomTextfield(
-                  controlle: phonecontroll,
+                  controlle: _phonecontroll,
                   hint: "phone number",
                 ),
                 const SizedBox20(),
                 CustomTextfield(
-                  controlle: addresscontroll,
+                  controlle: _addresscontroll,
                   maxline: 5,
                   hint: "Address",
                 ),
@@ -111,7 +114,10 @@ class _AddDetailsState extends State<AddDetails> {
                       child: CustomButton2(
                         text: "ADD",
                         color: Colors.green,
-                        onPressed: () {},
+                        onPressed: () {
+                          addstudentbuttonclick();
+                          Navigator.pop(context); 
+                        },
                       ),
                     )
                   ],
@@ -122,5 +128,29 @@ class _AddDetailsState extends State<AddDetails> {
         )),
       ),
     );
+  }
+
+  Future<void> addstudentbuttonclick() async {
+    final _name = _namecontroll.text.trim();
+    final _rollnumber = int.tryParse(rollcontroll.text) ?? 0;
+    final _classes = _classcontroll.text.trim();
+    final _phone = _phonecontroll.text.trim();
+    final _address = _addresscontroll.text.trim();
+    final _photo = _phonecontroll.text.trim();
+    if (_name.isEmpty ||
+        _classes.isEmpty ||
+        _phone.isEmpty ||
+        _address.isEmpty ||
+        _photo.isEmpty) {
+      return;
+    }
+    final _student = StudentModel(
+        rollnumber: _rollnumber,
+        name: _name,
+        classes: _classes,
+        phone: _phone,
+        address: _address,
+        photo: _photo);
+    _studentservices.addstudents(_student);
   }
 }

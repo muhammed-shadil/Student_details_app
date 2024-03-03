@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:student_database/controller/service.dart';
 import 'package:student_database/view/screens/add_datapage.dart';
 import 'package:student_database/view/screens/students_list.dart';
 import 'package:student_database/view/widgets/custombutton1.dart';
 
 class HomePage extends StatelessWidget {
-  const HomePage({super.key});
-
+   HomePage({super.key});
+  final Studentservices  _studentservices= Studentservices ();
   @override
   Widget build(BuildContext context) {
+    _studentservices.getallstudents();
     return Container(
       decoration: const BoxDecoration(
         gradient: LinearGradient(
@@ -39,7 +41,7 @@ class HomePage extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (_) => const StudentList(),
+                    builder: (_) =>  StudentList(),
                   ),
                 );
               },
