@@ -5,8 +5,8 @@ import 'package:student_database/view/screens/students_list.dart';
 import 'package:student_database/view/widgets/custombutton1.dart';
 
 class HomePage extends StatelessWidget {
-   HomePage({super.key});
-  final Studentservices  _studentservices= Studentservices ();
+  HomePage({super.key});
+  final Studentservices _studentservices = Studentservices();
   @override
   Widget build(BuildContext context) {
     _studentservices.getallstudents();
@@ -41,7 +41,7 @@ class HomePage extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (_) =>  StudentList(),
+                    builder: (_) => StudentList(),
                   ),
                 );
               },

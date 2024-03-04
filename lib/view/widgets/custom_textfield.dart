@@ -4,10 +4,12 @@ class CustomTextfield extends StatefulWidget {
   const CustomTextfield(
       {super.key,
       this.maxline = 1,
+      this.label,
       required this.textenable,
       required this.hint,
       required this.controlle});
   final int maxline;
+  final String? label; 
   final String hint;
   final TextEditingController controlle;
   final bool textenable;
@@ -23,7 +25,7 @@ class _CustomTextfieldState extends State<CustomTextfield> {
       controller: widget.controlle,
       maxLines: widget.maxline,
       decoration: InputDecoration(
-        hintText: widget.hint,
+        hintText: widget.hint,labelText: widget.label,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(20),
         ),

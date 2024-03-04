@@ -1,6 +1,10 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:student_database/controller/service.dart';
 import 'package:student_database/model/studentmodel.dart';
+import 'package:student_database/view/widgets/addimage.dart';
 import 'package:student_database/view/widgets/custom_textfield.dart';
 import 'package:student_database/view/widgets/custombutton2.dart';
 import 'package:student_database/view/widgets/sizedbox20.dart';
@@ -12,14 +16,22 @@ class AddDetails extends StatefulWidget {
   State<AddDetails> createState() => _AddDetailsState();
 }
 
-Studentservices _studentservices = Studentservices();
-final _rollcontroll = TextEditingController();
-final _classcontroll = TextEditingController();
-final _namecontroll = TextEditingController();
-final _phonecontroll = TextEditingController();
-final _addresscontroll = TextEditingController();
-
 class _AddDetailsState extends State<AddDetails> {
+ final Studentservices _studentservices = Studentservices();
+  final _rollcontroll = TextEditingController();
+  final _classcontroll = TextEditingController();
+  final _namecontroll = TextEditingController();
+  final _phonecontroll = TextEditingController();
+  final _addresscontroll = TextEditingController();
+  Uint8List? _image;
+
+  void selectImage() async {
+    Uint8List img = await pickImage(ImageSource.gallery);
+    setState(() {
+      _image = img;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,18 +52,23 @@ class _AddDetailsState extends State<AddDetails> {
                     SizedBox(
                       width: 100,
                       child: Stack(children: [
-                        const CircleAvatar(
-                          radius: 50,
-                          child: Icon(
-                            Icons.person_outline_rounded,
-                            size: 50,
-                          ),
-                        ),
+                        _image != null
+                            ? CircleAvatar(
+                                radius: 50,
+                                backgroundImage: MemoryImage(_image!),
+                              )
+                            : const CircleAvatar(
+                                radius: 50,
+                                child: Icon(
+                                  Icons.person_outline_rounded,
+                                  size: 50,
+                                ),
+                              ),
                         Positioned(
                           right: -10,
                           bottom: -10,
                           child: IconButton(
-                              onPressed: () {},
+                              onPressed: selectImage,
                               icon: const Icon(Icons.add_a_photo_outlined)),
                         )
                       ]),
@@ -60,7 +77,7 @@ class _AddDetailsState extends State<AddDetails> {
                       width: 10,
                     ),
                     SizedBox(
-                      width: MediaQuery.of(context).size.width * .55,
+                      width: MediaQuery.of(context).size.width * .52,
                       child: Column(
                         children: [
                           CustomTextfield(
@@ -140,12 +157,10 @@ class _AddDetailsState extends State<AddDetails> {
     final _classes = _classcontroll.text.trim();
     final _phone = _phonecontroll.text.trim();
     final _address = _addresscontroll.text.trim();
-    final _photo = _phonecontroll.text.trim();
     if (_name.isEmpty ||
         _classes.isEmpty ||
         _phone.isEmpty ||
-        _address.isEmpty ||
-        _photo.isEmpty) {
+        _address.isEmpty||_rollnumber.isEmpty) {
       return;
     }
     final _student = StudentModel(
@@ -154,7 +169,7 @@ class _AddDetailsState extends State<AddDetails> {
         classes: _classes,
         phone: _phone,
         address: _address,
-        photo: _photo);
+        photoname: _image);
     _studentservices.addstudents(_student);
   }
 }

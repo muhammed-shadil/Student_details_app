@@ -50,19 +50,22 @@ class StudentList extends StatelessWidget {
                 padding: const EdgeInsets.all(10.0),
                 child: GestureDetector(
                   onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (_) => Viewpage(
-                          id: data.id,
-                          rollNo: data.rollnumber,
-                          name: data.name,
-                          classes: data.classes,
-                          address: data.address,
-                          phone: data.phone,
+                    if (data.photoname != null) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => Viewpage(
+                            image: data.photoname!,
+                            id: data.id,
+                            rollNo: data.rollnumber,
+                            name: data.name,
+                            classes: data.classes,
+                            address: data.address,
+                            phone: data.phone,
+                          ),
                         ),
-                      ),
-                    );
+                      );
+                    }
                   },
                   child: Container(
                     padding:
@@ -86,18 +89,21 @@ class StudentList extends StatelessWidget {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: [
-                              data.photo == null
+                              data.photoname == null
                                   ? const CircleAvatar(
-                                      radius: 30,
+                                      radius: 25,
+                                      child: Icon(Icons.person_outlined),
                                     )
                                   : CircleAvatar(
-                                      radius: 30,
+                                      radius: 25,
+                                      backgroundImage:
+                                          MemoryImage(data.photoname!),
                                     ),
                               const SizedBox(
                                 width: 10,
                               ),
                               SizedBox(
-                                width: 190,
+                                width: 170,
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   mainAxisAlignment: MainAxisAlignment.center,
@@ -114,10 +120,13 @@ class StudentList extends StatelessWidget {
                                     ),
                                     Text(
                                       data.rollnumber,
+                                      overflow: TextOverflow.ellipsis,
                                       style: const TextStyle(
                                         fontSize: 14,
                                         fontWeight: FontWeight.bold,
                                       ),
+                                      maxLines: 1,
+                                      softWrap: true,
                                     ),
                                   ],
                                 ),
@@ -132,18 +141,21 @@ class StudentList extends StatelessWidget {
                             children: [
                               IconButton(
                                 onPressed: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (_) => Editpage(
-                                          id: data.id,
-                                          rollNo: data.rollnumber,
-                                          phone: data.phone,
-                                          name: data.name,
-                                          classes: data.classes,
-                                          address: data.address),
-                                    ),
-                                  );
+                                  if (data.photoname != null) {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (_) => Editpage(
+                                            image: data.photoname!,
+                                            id: data.id,
+                                            rollNo: data.rollnumber,
+                                            phone: data.phone,
+                                            name: data.name,
+                                            classes: data.classes,
+                                            address: data.address),
+                                      ),
+                                    );
+                                  }
                                 },
                                 icon: const Icon(Icons.edit),
                               ),
@@ -174,12 +186,11 @@ class StudentList extends StatelessWidget {
     final _classes = data.classes;
     final _phone = data.phone;
     final _address = data.address;
-    final _photo = data.photo;
+    final _photo = data.photoname;
     if (_name.isEmpty ||
         _classes.isEmpty ||
         _phone.isEmpty ||
-        _address.isEmpty ||
-        _photo.isEmpty) {
+        _address.isEmpty) {
       return;
     }
     final _student = StudentModel(
@@ -188,7 +199,7 @@ class StudentList extends StatelessWidget {
         classes: _classes,
         phone: _phone,
         address: _address,
-        photo: _photo);
+        photoname: _photo);
 
     _studentservices.updatestudent(_student);
   }

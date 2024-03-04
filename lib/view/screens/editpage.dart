@@ -2,41 +2,57 @@
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:student_database/controller/service.dart';
 
 import 'package:student_database/model/studentmodel.dart';
+import 'package:student_database/view/widgets/addimage.dart';
 import 'package:student_database/view/widgets/custom_textfield.dart';
 import 'package:student_database/view/widgets/custombutton2.dart';
 import 'package:student_database/view/widgets/sizedbox20.dart';
 
 class Editpage extends StatefulWidget {
-  Editpage({
-    Key? key,
-    required this.rollNo,
-    required this.id,
-    required this.phone,
-    required this.name,
-    required this.classes,
-    required this.address,
-  }) : super(key: key);
+  Editpage(
+      {Key? key,
+      required this.rollNo,
+      required this.id,
+      required this.phone,
+      required this.name,
+      required this.classes,
+      required this.address,
+      required this.image})
+      : super(key: key);
   int? id;
   final String rollNo;
   final String phone;
   final String name;
   final String classes;
   final String address;
-  late Uint8List image;
+  Uint8List image;
 
   @override
-  State<Editpage> createState() => _EditpageState();
+  State<Editpage> createState() => _EditpageState(image);
 }
 
 class _EditpageState extends State<Editpage> {
+  late Uint8List _image;
+
   final TextEditingController _namecontroll = TextEditingController();
   final TextEditingController rollcontroll = TextEditingController();
   final TextEditingController _classcontroll = TextEditingController();
   final TextEditingController _phonecontroll = TextEditingController();
   final TextEditingController _addresscontroll = TextEditingController();
+
+  _EditpageState(Uint8List image) {
+    this._image = image;
+  }
+  void selectImage() async {
+    Uint8List img = await pickImage(ImageSource.gallery);
+    setState(() {
+      _image = img;
+    });
+  }
+
   @override
   void initState() {
     _namecontroll.text = widget.name;
@@ -79,18 +95,15 @@ class _EditpageState extends State<Editpage> {
                     SizedBox(
                       width: 100,
                       child: Stack(children: [
-                        const CircleAvatar(
+                        CircleAvatar(
                           radius: 50,
-                          child: Icon(
-                            Icons.person_outline_rounded,
-                            size: 50,
-                          ),
+                          backgroundImage: MemoryImage(_image),
                         ),
                         Positioned(
                           right: -10,
                           bottom: -10,
                           child: IconButton(
-                              onPressed: () {},
+                              onPressed:selectImage,
                               icon: const Icon(Icons.add_a_photo_outlined)),
                         )
                       ]),
@@ -99,7 +112,7 @@ class _EditpageState extends State<Editpage> {
                       width: 10,
                     ),
                     SizedBox(
-                      width: MediaQuery.of(context).size.width * .55,
+                      width: MediaQuery.of(context).size.width * .52,
                       child: Column(
                         children: [
                           CustomTextfield(
@@ -188,7 +201,7 @@ class _EditpageState extends State<Editpage> {
         classes: _classes,
         phone: _phone,
         address: _address,
-        photo: _photo);
+        photoname: _image);
 
     _studentservices.updatestudent(_student);
   }
