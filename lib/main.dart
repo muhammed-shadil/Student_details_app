@@ -4,7 +4,7 @@ import 'package:student_database/view/screens/homepage.dart';
 
 Studentservices _studentservices = Studentservices();
 Future<void> main() async {
-   WidgetsFlutterBinding.ensureInitialized();
+  WidgetsFlutterBinding.ensureInitialized();
   await _studentservices.database;
   runApp(
     MaterialApp(

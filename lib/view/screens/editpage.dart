@@ -1,30 +1,69 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:student_database/controller/service.dart';
+
 import 'package:student_database/model/studentmodel.dart';
 import 'package:student_database/view/widgets/custom_textfield.dart';
 import 'package:student_database/view/widgets/custombutton2.dart';
 import 'package:student_database/view/widgets/sizedbox20.dart';
 
-class AddDetails extends StatefulWidget {
-  const AddDetails({super.key});
+class Editpage extends StatefulWidget {
+  Editpage({
+    Key? key,
+    required this.rollNo,
+    required this.id,
+    required this.phone,
+    required this.name,
+    required this.classes,
+    required this.address,
+  }) : super(key: key);
+  int? id;
+  final String rollNo;
+  final String phone;
+  final String name;
+  final String classes;
+  final String address;
+  late Uint8List image;
 
   @override
-  State<AddDetails> createState() => _AddDetailsState();
+  State<Editpage> createState() => _EditpageState();
 }
 
-Studentservices _studentservices = Studentservices();
-final _rollcontroll = TextEditingController();
-final _classcontroll = TextEditingController();
-final _namecontroll = TextEditingController();
-final _phonecontroll = TextEditingController();
-final _addresscontroll = TextEditingController();
+class _EditpageState extends State<Editpage> {
+  final TextEditingController _namecontroll = TextEditingController();
+  final TextEditingController rollcontroll = TextEditingController();
+  final TextEditingController _classcontroll = TextEditingController();
+  final TextEditingController _phonecontroll = TextEditingController();
+  final TextEditingController _addresscontroll = TextEditingController();
+  @override
+  void initState() {
+    _namecontroll.text = widget.name;
+    _classcontroll.text = widget.classes;
+    _addresscontroll.text = widget.address;
+    rollcontroll.text = widget.rollNo;
+    _phonecontroll.text = widget.phone;
+    super.initState();
+  }
 
-class _AddDetailsState extends State<AddDetails> {
+  @override
+  void dispose() {
+    _addresscontroll.dispose();
+    _classcontroll.dispose();
+    _namecontroll.dispose();
+    _phonecontroll.dispose();
+    rollcontroll.dispose();
+    super.dispose();
+  }
+
+  final Studentservices _studentservices = Studentservices();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Add students"),
+        title: const Text("EDIT DETAILS"),
         centerTitle: true,
       ),
       body: SingleChildScrollView(
@@ -65,7 +104,7 @@ class _AddDetailsState extends State<AddDetails> {
                         children: [
                           CustomTextfield(
                             textenable: false,
-                            controlle: _rollcontroll,
+                            controlle: rollcontroll,
                             hint: "Roll number",
                           ),
                           const SizedBox20(),
@@ -116,10 +155,10 @@ class _AddDetailsState extends State<AddDetails> {
                     SizedBox(
                       width: MediaQuery.of(context).size.width * .6,
                       child: CustomButton2(
-                        text: "ADD",
+                        text: "update",
                         color: Colors.green,
                         onPressed: () {
-                          addstudentbuttonclick();
+                          onupdatedstudent();
                           Navigator.pop(context);
                         },
                       ),
@@ -134,27 +173,23 @@ class _AddDetailsState extends State<AddDetails> {
     );
   }
 
-  Future<void> addstudentbuttonclick() async {
+  Future<void> onupdatedstudent() async {
     final _name = _namecontroll.text.trim();
-    final _rollnumber = _rollcontroll.text.trim();
+    final _rollnumber = rollcontroll.text.trim();
     final _classes = _classcontroll.text.trim();
     final _phone = _phonecontroll.text.trim();
     final _address = _addresscontroll.text.trim();
     final _photo = _phonecontroll.text.trim();
-    if (_name.isEmpty ||
-        _classes.isEmpty ||
-        _phone.isEmpty ||
-        _address.isEmpty ||
-        _photo.isEmpty) {
-      return;
-    }
+
     final _student = StudentModel(
         rollnumber: _rollnumber,
+        id: widget.id,
         name: _name,
         classes: _classes,
         phone: _phone,
         address: _address,
         photo: _photo);
-    _studentservices.addstudents(_student);
+
+    _studentservices.updatestudent(_student);
   }
 }

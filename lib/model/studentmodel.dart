@@ -1,14 +1,13 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 class StudentModel {
   int? id;
-  int rollnumber;
+  String rollnumber;
   String name;
   String classes;
   String phone;
   String address;
   String photo;
   StudentModel({
-     this.id,
+    this.id,
     required this.rollnumber,
     required this.name,
     required this.classes,
@@ -16,11 +15,11 @@ class StudentModel {
     required this.address,
     required this.photo,
   });
- static StudentModel fromMap(Map<String, Object?> map) {
+  static StudentModel fromMap(Map<String, Object?> map) {
     final id = map['id'] as int;
-    final rollnumber = map['rollnumber'] as int;
+    final rollnumber = map['rollnumber'] as String;
     final name = map['name'] as String;
-    final classes = map['classes'] as String? ?? '';
+    final classes = map['class'] as String? ?? '';
     final phone = map['phone'] as String? ?? '';
     final photo = map['photo'] as String? ?? '';
     final address = map['address'] as String? ?? '';
@@ -32,5 +31,17 @@ class StudentModel {
         phone: phone,
         address: address,
         photo: photo);
+  }
+
+  Map<String, dynamic> toMap() {
+    return <String, dynamic>{
+      'id': id,
+      'class': classes,
+      'rollNumber': rollnumber,
+      'address': address,
+      'phone': phone,
+      'name': name,
+      'photoName': photo == null ? '' : photo!
+    };
   }
 }

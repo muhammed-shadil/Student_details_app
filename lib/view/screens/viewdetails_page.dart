@@ -1,30 +1,67 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
-import 'package:student_database/controller/service.dart';
+
 import 'package:student_database/model/studentmodel.dart';
+import 'package:student_database/view/screens/editpage.dart';
 import 'package:student_database/view/widgets/custom_textfield.dart';
 import 'package:student_database/view/widgets/custombutton2.dart';
 import 'package:student_database/view/widgets/sizedbox20.dart';
 
-class AddDetails extends StatefulWidget {
-  const AddDetails({super.key});
+class Viewpage extends StatefulWidget {
+  Viewpage({
+    Key? key,
+    required this.id,
+    required this.rollNo,
+    required this.phone,
+    required this.name,
+    required this.classes,
+    required this.address,
+  }) : super(key: key);
+  int? id;
+  final String rollNo;
+  final String phone;
+  final String name;
+  final String classes;
+  final String address;
+  // late Uint8List image;
 
   @override
-  State<AddDetails> createState() => _AddDetailsState();
+  State<Viewpage> createState() => _EditpageState();
 }
 
-Studentservices _studentservices = Studentservices();
-final _rollcontroll = TextEditingController();
-final _classcontroll = TextEditingController();
-final _namecontroll = TextEditingController();
-final _phonecontroll = TextEditingController();
-final _addresscontroll = TextEditingController();
+class _EditpageState extends State<Viewpage> {
+  final TextEditingController _namecontroll = TextEditingController();
+  final TextEditingController _rollcontroll = TextEditingController();
+  final TextEditingController _classcontroll = TextEditingController();
+  final TextEditingController _phonecontroll = TextEditingController();
+  final TextEditingController _addresscontroll = TextEditingController();
+  @override
+  void initState() {
+    _namecontroll.text = widget.name;
+    _classcontroll.text = widget.classes;
+    _addresscontroll.text = widget.address;
+    _rollcontroll.text = widget.rollNo;
+    _phonecontroll.text = widget.phone;
+    super.initState();
+  }
 
-class _AddDetailsState extends State<AddDetails> {
+  @override
+  void dispose() {
+    _addresscontroll.dispose();
+    _classcontroll.dispose();
+    _namecontroll.dispose();
+    _phonecontroll.dispose();
+    _rollcontroll.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Add students"),
+        title: const Text("DETAILS"),
         centerTitle: true,
       ),
       body: SingleChildScrollView(
@@ -64,13 +101,13 @@ class _AddDetailsState extends State<AddDetails> {
                       child: Column(
                         children: [
                           CustomTextfield(
-                            textenable: false,
+                            textenable: true,
                             controlle: _rollcontroll,
                             hint: "Roll number",
                           ),
                           const SizedBox20(),
                           CustomTextfield(
-                            textenable: false,
+                            textenable: true,
                             controlle: _classcontroll,
                             hint: "Class",
                           ),
@@ -81,19 +118,19 @@ class _AddDetailsState extends State<AddDetails> {
                   ],
                 ),
                 CustomTextfield(
-                  textenable: false,
+                  textenable: true,
                   controlle: _namecontroll,
                   hint: "Name",
                 ),
                 const SizedBox20(),
                 CustomTextfield(
-                  textenable: false,
+                  textenable: true,
                   controlle: _phonecontroll,
                   hint: "phone number",
                 ),
                 const SizedBox20(),
                 CustomTextfield(
-                  textenable: false,
+                  textenable: true,
                   controlle: _addresscontroll,
                   maxline: 5,
                   hint: "Address",
@@ -116,11 +153,20 @@ class _AddDetailsState extends State<AddDetails> {
                     SizedBox(
                       width: MediaQuery.of(context).size.width * .6,
                       child: CustomButton2(
-                        text: "ADD",
+                        text: "EDIT",
                         color: Colors.green,
                         onPressed: () {
-                          addstudentbuttonclick();
-                          Navigator.pop(context);
+                          Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (_) => Editpage(
+                                        id: widget.id,
+                                        rollNo: _rollcontroll.text,
+                                        phone: _phonecontroll.text,
+                                        name: _namecontroll.text,
+                                        classes: _classcontroll.text,
+                                        address: _addresscontroll.text,
+                                      )));
                         },
                       ),
                     )
@@ -132,29 +178,5 @@ class _AddDetailsState extends State<AddDetails> {
         )),
       ),
     );
-  }
-
-  Future<void> addstudentbuttonclick() async {
-    final _name = _namecontroll.text.trim();
-    final _rollnumber = _rollcontroll.text.trim();
-    final _classes = _classcontroll.text.trim();
-    final _phone = _phonecontroll.text.trim();
-    final _address = _addresscontroll.text.trim();
-    final _photo = _phonecontroll.text.trim();
-    if (_name.isEmpty ||
-        _classes.isEmpty ||
-        _phone.isEmpty ||
-        _address.isEmpty ||
-        _photo.isEmpty) {
-      return;
-    }
-    final _student = StudentModel(
-        rollnumber: _rollnumber,
-        name: _name,
-        classes: _classes,
-        phone: _phone,
-        address: _address,
-        photo: _photo);
-    _studentservices.addstudents(_student);
   }
 }
