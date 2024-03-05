@@ -43,6 +43,7 @@ class _EditpageState extends State<Editpage> {
   final TextEditingController _phonecontroll = TextEditingController();
   final TextEditingController _addresscontroll = TextEditingController();
 
+  final _formKey = GlobalKey<FormState>();
   _EditpageState(Uint8List image) {
     this._image = image;
   }
@@ -87,98 +88,147 @@ class _EditpageState extends State<Editpage> {
             child: Center(
           child: SizedBox(
             width: MediaQuery.of(context).size.width * .85,
-            child: Column(
-              children: [
-                const SizedBox20(),
-                Row(
-                  children: [
-                    SizedBox(
-                      width: 100,
-                      child: Stack(children: [
-                        CircleAvatar(
-                          radius: 50,
-                          backgroundImage: MemoryImage(_image),
+            child: Form(
+              key: _formKey,
+              child: Column(
+                children: [
+                  const SizedBox20(),
+                  Row(
+                    children: [
+                      SizedBox(
+                        width: 100,
+                        child: Stack(children: [
+                          CircleAvatar(
+                            radius: 50,
+                            backgroundImage: MemoryImage(_image),
+                          ),
+                          Positioned(
+                            right: -10,
+                            bottom: -10,
+                            child: IconButton(
+                                onPressed: selectImage,
+                                icon: const Icon(Icons.add_a_photo_outlined)),
+                          )
+                        ]),
+                      ),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width * .52,
+                        child: Column(
+                          children: [
+                            CustomTextfield(
+                                textenable: false,
+                                controlle: rollcontroll,
+                                hint: "Roll number",
+                                validator: (value) {
+                                  final age = RegExp(r"^[0-9]{1,2}$");
+                                  if (value == null || value.isEmpty) {
+                                    return "please enter the roll number ";
+                                  } else if (!age.hasMatch(value)) {
+                                    return "please enter a valid roll number";
+                                  }
+                                }),
+                            const SizedBox20(),
+                            CustomTextfield(
+                                textenable: false,
+                                controlle: _classcontroll,
+                                hint: "Class",
+                                validator: (value) {
+                                  final age = RegExp(r"^[0-9]{1,2}$");
+                                  if (value == null || value.isEmpty) {
+                                    return "please enter the class ";
+                                  } else if (!age.hasMatch(value)) {
+                                    return "please enter a valid class";
+                                  }
+                                }),
+                            const SizedBox20(),
+                          ],
                         ),
-                        Positioned(
-                          right: -10,
-                          bottom: -10,
-                          child: IconButton(
-                              onPressed:selectImage,
-                              icon: const Icon(Icons.add_a_photo_outlined)),
-                        )
-                      ]),
-                    ),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width * .52,
-                      child: Column(
-                        children: [
-                          CustomTextfield(
-                            textenable: false,
-                            controlle: rollcontroll,
-                            hint: "Roll number",
-                          ),
-                          const SizedBox20(),
-                          CustomTextfield(
-                            textenable: false,
-                            controlle: _classcontroll,
-                            hint: "Class",
-                          ),
-                          const SizedBox20(),
-                        ],
                       ),
-                    ),
-                  ],
-                ),
-                CustomTextfield(
-                  textenable: false,
-                  controlle: _namecontroll,
-                  hint: "Name",
-                ),
-                const SizedBox20(),
-                CustomTextfield(
-                  textenable: false,
-                  controlle: _phonecontroll,
-                  hint: "phone number",
-                ),
-                const SizedBox20(),
-                CustomTextfield(
-                  textenable: false,
-                  controlle: _addresscontroll,
-                  maxline: 5,
-                  hint: "Address",
-                ),
-                const SizedBox20(),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width * .6,
-                      child: CustomButton2(
-                        text: "CANCEL",
-                        color: Colors.red,
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
+                    ],
+                  ),
+                  CustomTextfield(
+                    textenable: false,
+                    controlle: _namecontroll,
+                    hint: "Name",
+                    validator: (value) {
+                      final name = RegExp(r'^[A-Za-z\s]+$');
+                      if (value == null || value.isEmpty) {
+                        return "please enter name";
+                      } else if (value.length < 3) {
+                        return "enter a valid name";
+                      } else if (!name.hasMatch(_namecontroll.text)) {
+                        return "enter a valid name";
+                      }
+                    },
+                  ),
+                  const SizedBox20(),
+                  CustomTextfield(
+                    textenable: false,
+                    controlle: _phonecontroll,
+                    hint: "phone number",
+                    validator: (value) {
+                      final reg2 = RegExp(r"^[6789]\d{9}$");
+                      if (value == null || value.isEmpty) {
+                        return "please enter phone number";
+                      } else if (value.length > 10) {
+                        return "number must be 10";
+                      } else if (!reg2.hasMatch(value)) {
+                        return "please enter a valid number";
+                      }
+                    },
+                  ),
+                  const SizedBox20(),
+                  CustomTextfield(
+                    textenable: false,
+                    controlle: _addresscontroll,
+                    maxline: 5,
+                    hint: "Address",
+                    validator: (value) {
+                      final name = RegExp(r'^[A-Za-z\s]+$');
+                      if (value == null || value.isEmpty) {
+                        return "please enter address";
+                      } else if (value.length < 3) {
+                        return "enter a valid address";
+                      } else if (!name.hasMatch(_namecontroll.text)) {
+                        return "enter a valid address";
+                      }
+                    },
+                  ),
+                  const SizedBox20(),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width * .6,
+                        child: CustomButton2(
+                          text: "CANCEL",
+                          color: Colors.red,
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                        ),
                       ),
-                    ),
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width * .6,
-                      child: CustomButton2(
-                        text: "update",
-                        color: Colors.green,
-                        onPressed: () {
-                          onupdatedstudent();
-                          Navigator.pop(context);
-                        },
-                      ),
-                    )
-                  ],
-                )
-              ],
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width * .6,
+                        child: CustomButton2(
+                          text: "update",
+                          color: Colors.green,
+                          onPressed: () {
+                            if (_formKey.currentState!.validate()) {
+                              onupdatedstudent();
+                              Navigator.pop(context);
+                            }
+                          },
+                        ),
+                      )
+                    ],
+                  )
+                ],
+              ),
             ),
           ),
         )),

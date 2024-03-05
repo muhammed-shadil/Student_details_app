@@ -31,10 +31,10 @@ class Viewpage extends StatefulWidget {
   Uint8List image;
 
   @override
-  State<Viewpage> createState() => _EditpageState(image);
+  State<Viewpage> createState() => _ViewpageState(image);
 }
 
-class _EditpageState extends State<Viewpage> {
+class _ViewpageState extends State<Viewpage> {
   late Uint8List _image;
   final TextEditingController _namecontroll = TextEditingController();
   final TextEditingController _rollcontroll = TextEditingController();
@@ -42,15 +42,15 @@ class _EditpageState extends State<Viewpage> {
   final TextEditingController _phonecontroll = TextEditingController();
   final TextEditingController _addresscontroll = TextEditingController();
 
-  _EditpageState(Uint8List image) {
+  _ViewpageState(Uint8List image) {
     this._image = image;
   }
-  void selectImage() async {
-    Uint8List img = await pickImage(ImageSource.gallery);
-    setState(() {
-      _image = img;
-    });
-  }
+  // void selectImage() async {
+  //   Uint8List img = await pickImage(ImageSource.gallery);
+  //   setState(() {
+  //     _image = img;
+  //   });
+  // }
 
   @override
   void initState() {

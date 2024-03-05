@@ -2,15 +2,18 @@ import 'dart:ffi';
 import 'package:flutter/material.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:student_database/model/studentmodel.dart';
+
 Database? _databas;
 final ValueNotifier<List<StudentModel>> studentNotifier = ValueNotifier([]);
+
 class Studentservices {
   Future<Database> get database async {
     if (_databas != null) return _databas!;
     _databas = await intializedatabase('student.db');
     return _databas!;
   }
- Future<Database> intializedatabase(String s) async {
+
+  Future<Database> intializedatabase(String s) async {
     return await openDatabase(
       "student.db",
       version: 1,
@@ -47,7 +50,6 @@ class Studentservices {
   }
 
   Future<void> deletestudent(int? id) async {
-    print('deleted');
     final db = await database;
     await db.rawDelete('DELETE FROM  students WHERE id=?', [id]);
     getallstudents();
