@@ -45,7 +45,7 @@ class _EditpageState extends State<Editpage> {
 
   final _formKey = GlobalKey<FormState>();
   _EditpageState(Uint8List image) {
-    this._image = image;
+    _image = image;
   }
   void selectImage() async {
     Uint8List img = await pickImage(ImageSource.gallery);
@@ -237,22 +237,21 @@ class _EditpageState extends State<Editpage> {
   }
 
   Future<void> onupdatedstudent() async {
-    final _name = _namecontroll.text.trim();
-    final _rollnumber = rollcontroll.text.trim();
-    final _classes = _classcontroll.text.trim();
-    final _phone = _phonecontroll.text.trim();
-    final _address = _addresscontroll.text.trim();
-    final _photo = _phonecontroll.text.trim();
+    final name = _namecontroll.text.trim();
+    final rollnumber = rollcontroll.text.trim();
+    final classes = _classcontroll.text.trim();
+    final phone = _phonecontroll.text.trim();
+    final address = _addresscontroll.text.trim();
 
-    final _student = StudentModel(
-        rollnumber: _rollnumber,
+    final student = StudentModel(
+        rollnumber: rollnumber,
         id: widget.id,
-        name: _name,
-        classes: _classes,
-        phone: _phone,
-        address: _address,
+        name: name,
+        classes: classes,
+        phone: phone,
+        address: address,
         photoname: _image);
 
-    _studentservices.updatestudent(_student);
+    _studentservices.updatestudent(student);
   }
 }

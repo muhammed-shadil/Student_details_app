@@ -202,19 +202,19 @@ class _AddDetailsState extends State<AddDetails> {
   }
 
   Future<void> addstudentbuttonclick() async {
-    final _name = _namecontroll.text.trim();
-    final _rollnumber = _rollcontroll.text.trim();
-    final _classes = _classcontroll.text.trim();
-    final _phone = _phonecontroll.text.trim();
-    final _address = _addresscontroll.text.trim();
+    final name = _namecontroll.text.trim();
+    final rollnumber = _rollcontroll.text.trim();
+    final classes = _classcontroll.text.trim();
+    final phone = _phonecontroll.text.trim();
+    final address = _addresscontroll.text.trim();
    
-    final _student = StudentModel(
-        rollnumber: _rollnumber,
-        name: _name,
-        classes: _classes,
-        phone: _phone,
-        address: _address,
+    final student = StudentModel(
+        rollnumber: rollnumber,
+        name: name,
+        classes: classes,
+        phone: phone,
+        address: address,
         photoname: _image);
-    _studentservices.addstudents(_student);
+    _studentservices.addstudents(student);
   }
 }

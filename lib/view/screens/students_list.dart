@@ -181,26 +181,26 @@ class StudentList extends StatelessWidget {
   }
 
   Future<void> onupdatedstudent(StudentModel data) async {
-    final _name = data.name;
-    final _rollnumber = data.rollnumber;
-    final _classes = data.classes;
-    final _phone = data.phone;
-    final _address = data.address;
-    final _photo = data.photoname;
-    if (_name.isEmpty ||
-        _classes.isEmpty ||
-        _phone.isEmpty ||
-        _address.isEmpty) {
+    final name = data.name;
+    final rollnumber = data.rollnumber;
+    final classes = data.classes;
+    final phone = data.phone;
+    final address = data.address;
+    final photo = data.photoname;
+    if (name.isEmpty ||
+        classes.isEmpty ||
+        phone.isEmpty ||
+        address.isEmpty) {
       return;
     }
-    final _student = StudentModel(
-        rollnumber: _rollnumber,
-        name: _name,
-        classes: _classes,
-        phone: _phone,
-        address: _address,
-        photoname: _photo);
+    final student = StudentModel(
+        rollnumber: rollnumber,
+        name: name,
+        classes: classes,
+        phone: phone,
+        address: address,
+        photoname: photo);
 
-    _studentservices.updatestudent(_student);
+    _studentservices.updatestudent(student);
   }
 }

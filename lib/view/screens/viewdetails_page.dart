@@ -1,12 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
-
-import 'package:student_database/model/studentmodel.dart';
 import 'package:student_database/view/screens/editpage.dart';
-import 'package:student_database/view/widgets/addimage.dart';
 import 'package:student_database/view/widgets/custom_textfield.dart';
 import 'package:student_database/view/widgets/custombutton2.dart';
 import 'package:student_database/view/widgets/sizedbox20.dart';
@@ -43,7 +38,7 @@ class _ViewpageState extends State<Viewpage> {
   final TextEditingController _addresscontroll = TextEditingController();
 
   _ViewpageState(Uint8List image) {
-    this._image = image;
+    _image = image;
   }
   // void selectImage() async {
   //   Uint8List img = await pickImage(ImageSource.gallery);

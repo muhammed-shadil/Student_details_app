@@ -40,9 +40,9 @@ class Studentservices {
   }
 
   Future<void> getallstudents() async {
-    final _values = await _databas!.rawQuery('SELECT * FROM students');
+    final values = await _databas!.rawQuery('SELECT * FROM students');
     studentNotifier.value.clear();
-    _values.forEach((map) {
+    values.forEach((map) {
       final student = StudentModel.fromMap(map);
       studentNotifier.value.add(student);
     });
