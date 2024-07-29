@@ -55,7 +55,7 @@ class _EditpageState extends State<Editpage> {
   }
 
   @override
-  void initState() {
+  void initState() { 
     _namecontroll.text = widget.name;
     _classcontroll.text = widget.classes;
     _addresscontroll.text = widget.address;
@@ -98,10 +98,15 @@ class _EditpageState extends State<Editpage> {
                       SizedBox(
                         width: 100,
                         child: Stack(children: [
-                          CircleAvatar(
-                            radius: 50,
-                            backgroundImage: MemoryImage(_image),
-                          ),
+                          (_image != null)
+                              ? CircleAvatar(
+                                  radius: 50,
+                                  backgroundImage: MemoryImage(_image!),
+                                )
+                              : const CircleAvatar(
+                                  radius: 50,
+                                  child: Icon(Icons.person_4_outlined),
+                                ),
                           Positioned(
                             right: -10,
                             bottom: -10,

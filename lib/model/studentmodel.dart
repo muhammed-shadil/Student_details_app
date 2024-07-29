@@ -15,7 +15,7 @@ class StudentModel {
     required this.classes,
     required this.phone,
     required this.address,
-    this.photoname,
+    required this.photoname,
   });
   static StudentModel fromMap(Map<String, dynamic> map) {
     final id = map['id'] as int;
@@ -23,7 +23,7 @@ class StudentModel {
     final name = map['name'] as String;
     final classes = map['class'] as String? ?? '';
     final phone = map['phone'] as String? ?? '';
-    final photoname = map['photoname'];
+    final photoname = map['photoname'] !=null?map['photoname']:null; 
     final address = map['address'] as String? ?? '';
     return StudentModel(
         id: id,
@@ -43,7 +43,8 @@ class StudentModel {
       'address': address,
       'phone': phone,
       'name': name,
-      'photoName': photoname == null ? '' : photoname!
+      'photoName': photoname==null?'':photoname!
+,
     };
   }
 }

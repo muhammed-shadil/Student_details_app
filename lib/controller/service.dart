@@ -42,10 +42,10 @@ class Studentservices {
   Future<void> getallstudents() async {
     final values = await _databas!.rawQuery('SELECT * FROM students');
     studentNotifier.value.clear();
-    values.forEach((map) {
+    for (var map in values) {
       final student = StudentModel.fromMap(map);
       studentNotifier.value.add(student);
-    });
+    }
     studentNotifier.notifyListeners();
   }
 
@@ -58,7 +58,7 @@ class Studentservices {
   Future<void> updatestudent(StudentModel values) async {
     final db = await database;
     await db.update('students', values.toMap(),
-        where: 'id=?',
+        where: 'id=?', 
         whereArgs: [values.id],
         conflictAlgorithm: ConflictAlgorithm.replace);
     getallstudents();

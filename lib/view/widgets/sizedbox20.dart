@@ -6,7 +6,7 @@ class SizedBox20 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const SizedBox(
-      height: 20,
+      height: 12,
     );
   }
 }

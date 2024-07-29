@@ -8,19 +8,8 @@ Future<void> main() async {
   await _studentservices.database;
   runApp(
     MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: "student data",
-      home: Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.black,
-          title: const Text(
-            'STUDENTS',
-            style: TextStyle(color: Colors.white),
-          ),
-          centerTitle: true,
-        ),
-        body: HomePage(),
-      ),
-    ),
+        debugShowCheckedModeBanner: false,
+        title: "student data",
+        home: HomePage()),
   );
 }

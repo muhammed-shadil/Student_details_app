@@ -5,20 +5,33 @@ class CustomButton1 extends StatelessWidget {
   const CustomButton1({
     Key? key,
     required this.title,
-    required this.onPressed,
+    required this.onPressed, required this.icon,
   }) : super(key: key);
   final String title;
+  final IconData icon;
   final VoidCallback onPressed;
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
+    return TextButton(
       style: ElevatedButton.styleFrom(
-        padding: const EdgeInsets.all(20),
+        fixedSize: Size(MediaQuery.of(context).size.width * .57,
+            MediaQuery.of(context).size.height * .1),
+        padding: const EdgeInsets.all(10),
       ),
       onPressed: onPressed,
-      child: Text(
-        title,
-        style: const TextStyle(color: Colors.black, fontSize: 30),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          Icon(
+           icon,
+            color: Colors.black,
+            size: 30,
+          ),
+          Text(
+            title,
+            style: const TextStyle(color: Colors.black, fontSize: 22),
+          ),
+        ],
       ),
     );
   }

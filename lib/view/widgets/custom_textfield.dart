@@ -22,7 +22,7 @@ class CustomTextfield extends StatefulWidget {
 class _CustomTextfieldState extends State<CustomTextfield> {
   @override
   Widget build(BuildContext context) {
-    return TextFormField(
+    return TextFormField(autovalidateMode: AutovalidateMode.onUserInteraction,
       validator: widget.validator,
       readOnly: widget.textenable,
       controller: widget.controlle,
@@ -30,7 +30,7 @@ class _CustomTextfieldState extends State<CustomTextfield> {
       decoration: InputDecoration(
         hintText: widget.hint,labelText: widget.label,
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(10),
         ),
       ),
     );

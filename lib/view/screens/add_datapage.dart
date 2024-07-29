@@ -27,12 +27,12 @@ class _AddDetailsState extends State<AddDetails> {
   final _formKey = GlobalKey<FormState>();
 
   void selectImage() async {
-    Uint8List img = await pickImage(ImageSource.gallery);
+    Uint8List? img = await pickImage(ImageSource.gallery);
     setState(() {
       _image = img;
     });
   }
-
+ 
   @override
   Widget build(BuildContext context) {
     return Scaffold(

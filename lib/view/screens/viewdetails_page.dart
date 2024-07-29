@@ -17,27 +17,26 @@ class Viewpage extends StatefulWidget {
     required this.address,
     required this.image,
   }) : super(key: key);
-  int? id;
+  int id;
   final String rollNo;
   final String phone;
   final String name;
   final String classes;
   final String address;
-  Uint8List image;
+  Uint8List? image;
 
   @override
   State<Viewpage> createState() => _ViewpageState(image);
 }
 
 class _ViewpageState extends State<Viewpage> {
-  late Uint8List _image;
   final TextEditingController _namecontroll = TextEditingController();
   final TextEditingController _rollcontroll = TextEditingController();
   final TextEditingController _classcontroll = TextEditingController();
   final TextEditingController _phonecontroll = TextEditingController();
   final TextEditingController _addresscontroll = TextEditingController();
-
-  _ViewpageState(Uint8List image) {
+  Uint8List? _image;
+  _ViewpageState(Uint8List? image) {
     _image = image;
   }
   // void selectImage() async {
@@ -54,6 +53,7 @@ class _ViewpageState extends State<Viewpage> {
     _addresscontroll.text = widget.address;
     _rollcontroll.text = widget.rollNo;
     _phonecontroll.text = widget.phone;
+    _image = widget.image;
     super.initState();
   }
 
@@ -87,10 +87,15 @@ class _ViewpageState extends State<Viewpage> {
                     SizedBox(
                       width: 100,
                       child: Stack(children: [
-                        CircleAvatar(
-                          radius: 50,
-                          backgroundImage: MemoryImage(_image),
-                        ),
+                        (_image != null)
+                            ? CircleAvatar(
+                                radius: 50,
+                                backgroundImage: MemoryImage(_image!),
+                              )
+                            : const CircleAvatar(
+                                radius: 50,
+                                child: Icon(Icons.person_4_outlined),
+                              )
                       ]),
                     ),
                     const SizedBox(
@@ -100,13 +105,15 @@ class _ViewpageState extends State<Viewpage> {
                       width: MediaQuery.of(context).size.width * .52,
                       child: Column(
                         children: [
-                          CustomTextfield(label: "ROLL NUMBER",
+                          CustomTextfield(
+                            label: "ROLL NUMBER",
                             textenable: true,
                             controlle: _rollcontroll,
                             hint: "Roll number",
                           ),
                           const SizedBox20(),
-                          CustomTextfield(label: "CLASS",
+                          CustomTextfield(
+                            label: "CLASS",
                             textenable: true,
                             controlle: _classcontroll,
                             hint: "Class",
@@ -117,22 +124,25 @@ class _ViewpageState extends State<Viewpage> {
                     ),
                   ],
                 ),
-                CustomTextfield(label: "NAME",
+                CustomTextfield(
+                  label: "NAME",
                   textenable: true,
                   controlle: _namecontroll,
                   hint: "Name",
                 ),
                 const SizedBox20(),
-                CustomTextfield(label: "PHONE",
+                CustomTextfield(
+                  label: "PHONE",
                   textenable: true,
                   controlle: _phonecontroll,
                   hint: "phone number",
                 ),
                 const SizedBox20(),
-                CustomTextfield(label: "ADDRESS",
+                CustomTextfield(
+                  label: "ADDRESS",
                   textenable: true,
                   controlle: _addresscontroll,
-                  maxline: 5,
+                  maxline: 4,
                   hint: "Address",
                 ),
                 const SizedBox20(),
@@ -156,18 +166,18 @@ class _ViewpageState extends State<Viewpage> {
                         text: "EDIT",
                         color: Colors.green,
                         onPressed: () {
-                          Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (_) => Editpage(
-                                        image: _image,
-                                        id: widget.id,
-                                        rollNo: _rollcontroll.text,
-                                        phone: _phonecontroll.text,
-                                        name: _namecontroll.text,
-                                        classes: _classcontroll.text,
-                                        address: _addresscontroll.text,
-                                      )));
+                          // Navigator.pushReplacement(
+                          //     context,
+                          //     MaterialPageRoute(
+                          //         builder: (_) => Editpage(
+                          //               image: _image!,
+                          //               id: widget.id,
+                          //               rollNo: _rollcontroll.text,
+                          //               phone: _phonecontroll.text,
+                          //               name: _namecontroll.text,
+                          //               classes: _classcontroll.text,
+                          //               address: _addresscontroll.text,
+                          //             )));
                         },
                       ),
                     )
